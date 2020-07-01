@@ -52,7 +52,6 @@ namespace Blog.Api
 
             services.AddTransient<IUseCaseLogger, DatabaseUseCaseLogger>();
             services.AddTransient<IEmailSender, SmtpEmailSender>(x => new SmtpEmailSender(appSettings.EmailFrom, appSettings.EmailPassword));
-            services.AddTransient<IUploadImageCommand, EfUploadImageCommand>();
             services.AddTransient<UseCaseExecutor>();
             services.AddTransient<JwtManager>(x => 
             {

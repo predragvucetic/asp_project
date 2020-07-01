@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
 {
-    //[Authorize] // Ovo je za ceo kontroler, videti u kojim metodama treba dozvoliti da samo ulogovani korisnici mogu pristupiti
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

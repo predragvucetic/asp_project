@@ -43,6 +43,10 @@ namespace Blog.Api.Core
             services.AddTransient<IEditCommentCommand, EfEditCommentCommand>();
             services.AddTransient<IDeleteCommentCommand, EfDeleteCommentCommand>();
 
+            services.AddTransient<IUploadImageCommand, EfUploadImageCommand>();
+
+            services.AddTransient<IGetLogsQuery, EfGetLogsQuery>();
+
             services.AddTransient<CreateCategoryValidator>();
             services.AddTransient<EditCategoryValidator>();
             services.AddTransient<RegisterUserValidator>();

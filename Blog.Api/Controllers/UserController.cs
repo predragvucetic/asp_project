@@ -7,6 +7,7 @@ using Blog.Application.Commands;
 using Blog.Application.DataTransfer;
 using Blog.Application.Queries;
 using Blog.Application.Searches;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,7 @@ namespace Blog.Api.Controllers
             _executor = executor;
         }
 
+        [Authorize]
         // GET: api/User
         [HttpGet]
         public IActionResult Get(
@@ -32,6 +34,7 @@ namespace Blog.Api.Controllers
             return Ok(_executor.ExecuteQuery(query, search));
         }
 
+        [Authorize]
         // GET: api/User/5
         [HttpGet("{id}", Name = "GetUser")]
         public IActionResult Get(int id,
@@ -50,6 +53,7 @@ namespace Blog.Api.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        [Authorize]
         // PUT: api/User/5
         [HttpPut("{id}")]
         public IActionResult Put(int id,
@@ -62,6 +66,7 @@ namespace Blog.Api.Controllers
             return NoContent();
         }
 
+        [Authorize]
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id,

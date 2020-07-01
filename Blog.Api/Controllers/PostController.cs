@@ -7,11 +7,13 @@ using Blog.Application.Commands;
 using Blog.Application.DataTransfer;
 using Blog.Application.Queries;
 using Blog.Application.Searches;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
