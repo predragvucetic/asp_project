@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200625133016_initial.cs" />
+    <Compile Remove="Migrations\20200625133016_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200625154559_initial.cs" />
+    <Compile Remove="Migrations\20200625154559_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200627114206_Added table Images.cs" />
+    <Compile Remove="Migrations\20200627114206_Added table Images.Designer.cs" />
+    <Compile Remove="Migrations\20200627114258_Added table Images.cs" />
+    <Compile Remove="Migrations\20200627114258_Added table Images.Designer.cs" />
+    <Compile Remove="Migrations\20200628152215_Added table Posts.cs" />
+    <Compile Remove="Migrations\20200628152215_Added table Posts.Designer.cs" />
+    <Compile Remove="Migrations\20200628152547_Added table Posts.cs" />
+    <Compile Remove="Migrations\20200628152547_Added table Posts.Designer.cs" />
+    <Compile Remove="Migrations\20200628153128_Added table Posts.cs" />
+    <Compile Remove="Migrations\20200628153128_Added table Posts.Designer.cs" />
+    <Compile Remove="Migrations\20200628153454_Added table Posts.cs" />
+    <Compile Remove="Migrations\20200628153454_Added table Posts.Designer.cs" />
+    <Compile Remove="Migrations\20200628190806_Edited PostConfiguration.cs" />
+    <Compile Remove="Migrations\20200628190806_Edited PostConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20200629172822_Added UserUseCaseConfiguration.cs" />
+    <Compile Remove="Migrations\20200629172822_Added UserUseCaseConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20200629173000_Added UserUseCaseConfiguration.cs" />
+    <Compile Remove="Migrations\20200629173000_Added UserUseCaseConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20200630195735_Added table UserUseCases.cs" />
+    <Compile Remove="Migrations\20200630195735_Added table UserUseCases.Designer.cs" />
+    <Compile Remove="Migrations\20200630195845_Added table UserUseCases.cs" />
+    <Compile Remove="Migrations\20200630195845_Added table UserUseCases.Designer.cs" />
+    <Compile Remove="Migrations\20200701115502_Initial category data.cs" />
+    <Compile Remove="Migrations\20200701115502_Initial category data.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
