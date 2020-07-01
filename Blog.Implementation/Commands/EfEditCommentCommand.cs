@@ -5,8 +5,10 @@ using Blog.Application.Exceptions;
 using Blog.EfDataAccess;
 using Blog.Implementation.Validators;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Blog.Implementation.Commands
@@ -38,6 +40,9 @@ namespace Blog.Implementation.Commands
             {
                 throw new EntityNotFoundException(id, typeof(CommentDto));
             }
+
+            request.UserId = comment.UserId;
+            request.PostId = comment.PostId;
 
             _validator.ValidateAndThrow(request);
 

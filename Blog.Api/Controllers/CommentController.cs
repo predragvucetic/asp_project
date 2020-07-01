@@ -58,7 +58,7 @@ namespace Blog.Api.Controllers
             [FromServices] IEditCommentCommand command)
         {
             dto.Id = id;
-
+            
             _executor.ExecuteCommand(command, dto);
             return NoContent();
         }
