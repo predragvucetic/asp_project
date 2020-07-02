@@ -2,9 +2,8 @@
 using Blog.Application.DataTransfer;
 using Blog.Application.Exceptions;
 using Blog.Application.Queries;
-using Blog.Application.Searches;
-using Blog.Domain;
 using Blog.EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +28,7 @@ namespace Blog.Implementation.Queries
 
         public CategoryDto Execute(int search)
         {
-            var category = _context.Categories.Find(search);
+            var category = _context.Categories.Include(x => x.Posts).FirstOrDefault(x => x.Id == search);
 
             if (category == null)
             {

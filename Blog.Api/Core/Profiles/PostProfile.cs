@@ -13,7 +13,8 @@ namespace Blog.Api.Core.Profiles
     {
         public PostProfile()
         {
-            CreateMap<Post, PostDto>();
+            CreateMap<Post, PostDto>()
+                .ForMember(d => d.Comments, opt => opt.MapFrom(p => p.Comments.Select(x => new CommentDto { Id = x.Id, Content = x.Content, PostId = x.PostId, UserId = x.UserId })));
             CreateMap<PostDto, Post>();
         }
     }

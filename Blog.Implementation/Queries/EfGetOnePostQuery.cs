@@ -35,17 +35,7 @@ namespace Blog.Implementation.Queries
                 throw new EntityNotFoundException(search, typeof(PostDto));
             }
 
-            //var response = _mapper.Map<PostDto>(post);
-
-            var response = new PostDto
-            {
-                Id = post.Id,
-                Title = post.Title,
-                Description = post.Description,
-                ImageId = post.ImageId,
-                CategoryId = post.CategoryId,
-                Comments = post.Comments.Where(x => x.PostId == post.Id).ToList()
-            };
+            var response = _mapper.Map<PostDto>(post);
 
             return response;
         }
