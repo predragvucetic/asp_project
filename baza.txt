@@ -1,0 +1,589 @@
+USE [master]
+GO
+/****** Object:  Database [Blog_asp]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE DATABASE [Blog_asp]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Blog_asp', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Blog_asp.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Blog_asp_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Blog_asp_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [Blog_asp] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Blog_asp].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Blog_asp] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Blog_asp] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Blog_asp] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Blog_asp] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Blog_asp] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Blog_asp] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Blog_asp] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Blog_asp] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Blog_asp] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Blog_asp] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Blog_asp] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Blog_asp] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Blog_asp] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Blog_asp] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Blog_asp] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Blog_asp] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Blog_asp] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Blog_asp] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Blog_asp] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Blog_asp] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Blog_asp] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Blog_asp] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Blog_asp] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Blog_asp] SET  MULTI_USER 
+GO
+ALTER DATABASE [Blog_asp] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Blog_asp] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Blog_asp] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Blog_asp] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Blog_asp] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Blog_asp] SET QUERY_STORE = OFF
+GO
+USE [Blog_asp]
+GO
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[__EFMigrationsHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[DeletedAt] [datetime2](7) NULL,
+	[IsActive] [bit] NOT NULL,
+	[Name] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Comments]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Comments](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[DeletedAt] [datetime2](7) NULL,
+	[IsActive] [bit] NOT NULL,
+	[Content] [nvarchar](max) NULL,
+	[UserId] [int] NOT NULL,
+	[PostId] [int] NOT NULL,
+ CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Images]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Images](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[DeletedAt] [datetime2](7) NULL,
+	[IsActive] [bit] NOT NULL,
+	[ImageName] [nvarchar](max) NULL,
+	[PostId] [int] NOT NULL,
+ CONSTRAINT [PK_Images] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Posts]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Posts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[DeletedAt] [datetime2](7) NULL,
+	[IsActive] [bit] NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](max) NOT NULL,
+	[CategoryId] [int] NOT NULL,
+	[ImageId] [int] NOT NULL,
+ CONSTRAINT [PK_Posts] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UseCaseLogs]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UseCaseLogs](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Date] [datetime2](7) NOT NULL,
+	[UseCaseName] [nvarchar](max) NULL,
+	[Data] [nvarchar](max) NULL,
+	[Actor] [nvarchar](max) NULL,
+ CONSTRAINT [PK_UseCaseLogs] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[DeletedAt] [datetime2](7) NULL,
+	[IsActive] [bit] NOT NULL,
+	[FirstName] [nvarchar](20) NOT NULL,
+	[LastName] [nvarchar](20) NOT NULL,
+	[Email] [nvarchar](450) NOT NULL,
+	[Username] [nvarchar](30) NOT NULL,
+	[Password] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserUseCase]    Script Date: 01/07/2020 22:00:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserUseCase](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[UseCaseId] [int] NOT NULL,
+ CONSTRAINT [PK_UserUseCase] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200625160122_initial', N'3.1.5')
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200626165108_Added Users and User Use-Cases', N'3.1.5')
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200626174328_Added table UseCaseLogs', N'3.1.5')
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200627115227_Added table Images', N'3.1.5')
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200628154137_Added table Posts', N'3.1.5')
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20200629102924_Added table Comments', N'3.1.5')
+GO
+SET IDENTITY_INSERT [dbo].[Categories] ON 
+
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (1, CAST(N'2020-07-01T11:56:40.3672155' AS DateTime2), NULL, 0, NULL, 1, N'Health')
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (2, CAST(N'2020-07-01T11:56:44.4409940' AS DateTime2), NULL, 0, NULL, 1, N'Sport')
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (3, CAST(N'2020-07-01T11:56:48.7728257' AS DateTime2), NULL, 0, NULL, 1, N'Fashion')
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (4, CAST(N'2020-07-01T11:57:07.0759888' AS DateTime2), NULL, 0, NULL, 1, N'Cars')
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (5, CAST(N'2020-07-01T11:57:42.0721678' AS DateTime2), NULL, 0, NULL, 1, N'Lifestyle')
+INSERT [dbo].[Categories] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Name]) VALUES (6, CAST(N'2020-07-01T11:57:52.4170701' AS DateTime2), NULL, 0, NULL, 1, N'Politics')
+SET IDENTITY_INSERT [dbo].[Categories] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Comments] ON 
+
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (1, CAST(N'2020-07-01T12:17:18.9892404' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 1', 5, 1)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (2, CAST(N'2020-07-01T12:17:26.5068201' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 2', 5, 1)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (3, CAST(N'2020-07-01T12:17:34.2472848' AS DateTime2), CAST(N'2020-07-01T19:22:21.9209811' AS DateTime2), 1, CAST(N'2020-07-01T19:22:21.9096055' AS DateTime2), 0, N'Aasdfasd', 1, 20)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (4, CAST(N'2020-07-01T12:18:10.1933384' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 4', 6, 5)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (5, CAST(N'2020-07-01T12:18:20.3509638' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 5', 6, 4)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (6, CAST(N'2020-07-01T12:18:30.0358804' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 6', 5, 6)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (7, CAST(N'2020-07-01T12:42:34.9315747' AS DateTime2), NULL, 0, NULL, 1, N'Komentar 7', 5, 5)
+INSERT [dbo].[Comments] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Content], [UserId], [PostId]) VALUES (8, CAST(N'2020-07-01T19:11:34.4695442' AS DateTime2), NULL, 0, NULL, 1, N'Neki tamo komentar', 6, 20)
+SET IDENTITY_INSERT [dbo].[Comments] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Images] ON 
+
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (1, CAST(N'2020-07-01T11:59:52.6647642' AS DateTime2), NULL, 0, NULL, 1, N'ef510a39-9194-4797-b0f6-fce17e54bec2.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (2, CAST(N'2020-07-01T11:59:59.0139222' AS DateTime2), NULL, 0, NULL, 1, N'cbfbda2c-323f-43fb-9d7a-7ffd0a4656ac.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (3, CAST(N'2020-07-01T12:00:05.4332887' AS DateTime2), NULL, 0, NULL, 1, N'4b5c7517-d428-47a6-a66c-f2bd787941d3.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (4, CAST(N'2020-07-01T12:00:10.2722413' AS DateTime2), NULL, 0, NULL, 1, N'3cd29cbe-ae7f-48a2-b667-b8c79322a8de.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (5, CAST(N'2020-07-01T12:00:15.0944630' AS DateTime2), NULL, 0, NULL, 1, N'66ffa428-c9a2-42eb-b5af-18253e38c431.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (6, CAST(N'2020-07-01T12:00:21.1663069' AS DateTime2), NULL, 0, NULL, 1, N'dc81fac0-598b-41ed-9744-3161d6a2e963.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (7, CAST(N'2020-07-01T12:00:26.2748787' AS DateTime2), NULL, 0, NULL, 1, N'4d47adfd-00ab-4273-8320-ed0e68313562.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (8, CAST(N'2020-07-01T12:00:31.5203043' AS DateTime2), NULL, 0, NULL, 1, N'628e0b8a-0870-4596-88ac-d507baa0f4e0.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (9, CAST(N'2020-07-01T12:00:36.9677739' AS DateTime2), NULL, 0, NULL, 1, N'32abe5e3-3f1c-4467-ae43-4ff67838616c.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (10, CAST(N'2020-07-01T12:00:42.0250060' AS DateTime2), NULL, 0, NULL, 1, N'139d25a2-76e9-427c-a5a8-147236bf8cca.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (11, CAST(N'2020-07-01T12:00:46.1566333' AS DateTime2), NULL, 0, NULL, 1, N'c848cd8b-31fc-4412-a476-deddd06a7a2c.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (12, CAST(N'2020-07-01T12:00:51.1240987' AS DateTime2), NULL, 0, NULL, 1, N'7b734b08-1b2f-4fc8-a234-f7781ff8df3b.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (13, CAST(N'2020-07-01T12:01:02.7926376' AS DateTime2), NULL, 0, NULL, 1, N'4e35703c-22c4-4577-bd08-e8bd9d94c05d.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (14, CAST(N'2020-07-01T12:01:14.3943956' AS DateTime2), NULL, 0, NULL, 1, N'e9b4af7d-2057-469e-a0c2-8475629311b3.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (15, CAST(N'2020-07-01T12:01:21.9749004' AS DateTime2), NULL, 0, NULL, 1, N'982336f5-1d35-477b-a65f-918e3613e4f7.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (16, CAST(N'2020-07-01T12:01:29.8968447' AS DateTime2), NULL, 0, NULL, 1, N'eebe5512-6929-4a8e-a673-5989ff276796.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (17, CAST(N'2020-07-01T12:01:35.9244073' AS DateTime2), NULL, 0, NULL, 1, N'4727285d-0a45-4f0a-85a4-8b72e3d72f2f.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (18, CAST(N'2020-07-01T12:01:43.2509310' AS DateTime2), NULL, 0, NULL, 1, N'64223c8d-c39f-417b-aaba-daa46c2e7efd.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (19, CAST(N'2020-07-01T12:01:50.0400343' AS DateTime2), NULL, 0, NULL, 1, N'88fde54e-b3a6-4e67-afcb-68af506f5208.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (20, CAST(N'2020-07-01T12:01:56.3411390' AS DateTime2), NULL, 0, NULL, 1, N'900faa0c-69a4-447e-9024-30ad4e958299.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (21, CAST(N'2020-07-01T12:02:06.0928499' AS DateTime2), NULL, 0, NULL, 1, N'bcccac6a-4119-45fc-b773-ef8453589c02.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (22, CAST(N'2020-07-01T12:02:16.9415165' AS DateTime2), NULL, 0, NULL, 1, N'87f77756-4df9-4f17-83a7-c78cffcbb448.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (23, CAST(N'2020-07-01T12:02:27.4368349' AS DateTime2), NULL, 0, NULL, 1, N'a952e47d-822a-49fe-8716-80cfc2484af9.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (24, CAST(N'2020-07-01T12:02:34.7948931' AS DateTime2), NULL, 0, NULL, 1, N'a0d12d0e-1d99-4c00-a0ac-02a22f6f8569.jpg', 0)
+INSERT [dbo].[Images] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [ImageName], [PostId]) VALUES (25, CAST(N'2020-07-01T12:02:41.5081938' AS DateTime2), NULL, 0, NULL, 1, N'b25fb7a3-9e5c-4772-a42d-e370db641cd6.jpg', 0)
+SET IDENTITY_INSERT [dbo].[Images] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Posts] ON 
+
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (1, CAST(N'2020-07-01T12:03:52.4015050' AS DateTime2), NULL, 0, NULL, 1, N'Post 1', N'Opis posta 1', 1, 1)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (2, CAST(N'2020-07-01T12:03:58.6745638' AS DateTime2), NULL, 0, NULL, 1, N'Post 2', N'Opis posta 2', 1, 2)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (3, CAST(N'2020-07-01T12:04:06.2469735' AS DateTime2), NULL, 0, NULL, 1, N'Post 3', N'Opis posta 3', 1, 3)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (4, CAST(N'2020-07-01T12:04:18.8573336' AS DateTime2), NULL, 0, NULL, 1, N'Post 4', N'Opis posta 4', 3, 4)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (5, CAST(N'2020-07-01T12:04:30.0840270' AS DateTime2), NULL, 0, NULL, 1, N'Post 5', N'Opis posta 5', 5, 5)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (6, CAST(N'2020-07-01T12:04:36.8808575' AS DateTime2), NULL, 0, NULL, 1, N'Post 6', N'Opis posta 6', 5, 6)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (7, CAST(N'2020-07-01T12:04:58.1622994' AS DateTime2), NULL, 0, NULL, 1, N'Post 7', N'Opis posta 7', 2, 7)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (8, CAST(N'2020-07-01T12:05:07.3960110' AS DateTime2), NULL, 0, NULL, 1, N'Post 8', N'Opis posta 8', 1, 8)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (9, CAST(N'2020-07-01T12:05:15.5169371' AS DateTime2), NULL, 0, NULL, 1, N'Post 9', N'Opis posta 9', 3, 9)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (10, CAST(N'2020-07-01T12:05:44.1372929' AS DateTime2), NULL, 0, NULL, 1, N'Post 10', N'Opis posta 10', 4, 10)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (11, CAST(N'2020-07-01T12:05:56.5090793' AS DateTime2), NULL, 0, NULL, 1, N'Post 11', N'Opis posta 11', 6, 11)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (12, CAST(N'2020-07-01T12:06:06.2720168' AS DateTime2), NULL, 0, NULL, 1, N'Post 12', N'Opis posta 12', 4, 12)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (13, CAST(N'2020-07-01T12:06:20.0546011' AS DateTime2), NULL, 0, NULL, 1, N'Post 13', N'Opis posta 13', 2, 13)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (14, CAST(N'2020-07-01T12:06:27.9472651' AS DateTime2), NULL, 0, NULL, 1, N'Post 14', N'Opis posta 14', 6, 14)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (15, CAST(N'2020-07-01T12:06:37.9043416' AS DateTime2), NULL, 0, NULL, 1, N'Post 15', N'Opis posta 15', 1, 15)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (16, CAST(N'2020-07-01T12:07:26.5211155' AS DateTime2), NULL, 0, NULL, 1, N'Post 16', N'Opis posta 16', 3, 16)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (17, CAST(N'2020-07-01T12:07:35.5595525' AS DateTime2), NULL, 0, NULL, 1, N'Post 17', N'Opis posta 17', 5, 17)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (18, CAST(N'2020-07-01T12:07:45.8628877' AS DateTime2), NULL, 0, NULL, 1, N'Post 18', N'Opis posta 18', 5, 18)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (19, CAST(N'2020-07-01T12:07:53.9540230' AS DateTime2), NULL, 0, NULL, 1, N'Post 19', N'Opis posta 19', 4, 19)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (20, CAST(N'2020-07-01T12:08:06.0037409' AS DateTime2), NULL, 0, NULL, 1, N'Post 20', N'Opis posta 20', 6, 20)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (21, CAST(N'2020-07-01T12:08:13.3267262' AS DateTime2), NULL, 0, NULL, 1, N'Post 21', N'Opis posta 21', 3, 21)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (22, CAST(N'2020-07-01T12:08:21.4054067' AS DateTime2), NULL, 0, NULL, 1, N'Post 22', N'Opis posta 22', 2, 22)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (23, CAST(N'2020-07-01T12:08:27.8880622' AS DateTime2), NULL, 0, NULL, 1, N'Post 23', N'Opis posta 23', 2, 23)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (24, CAST(N'2020-07-01T12:08:40.3107207' AS DateTime2), NULL, 0, NULL, 1, N'Post 24', N'Opis posta 24', 3, 24)
+INSERT [dbo].[Posts] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [Title], [Description], [CategoryId], [ImageId]) VALUES (25, CAST(N'2020-07-01T12:08:48.4791620' AS DateTime2), NULL, 0, NULL, 1, N'Post 25', N'Opis posta 25', 4, 25)
+SET IDENTITY_INSERT [dbo].[Posts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UseCaseLogs] ON 
+
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (1, CAST(N'2020-07-01T11:26:53.6734689' AS DateTime2), N'User Registration', N'{"FirstName":"Vlade","LastName":"Vucetic","Email":"vladimir.vucetic992@gmail.com","Username":"vlade992","Password":"vlade992"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (2, CAST(N'2020-07-01T11:28:07.5822380' AS DateTime2), N'User Registration', N'{"FirstName":"Predrag","LastName":"Vucetic","Email":"pedja.dota.vucetic@gmail.com","Username":"pedja994","Password":"pedja994"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (3, CAST(N'2020-07-01T11:33:00.6094410' AS DateTime2), N'User Registration', N'{"FirstName":"Predrag","LastName":"Vucetic","Email":"pedja.dota.vucetic@gmail.com","Username":"pedja994","Password":"pedja994"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (4, CAST(N'2020-07-01T11:35:16.1548393' AS DateTime2), N'User Registration', N'{"FirstName":"Predrag","LastName":"Vucetic","Email":"pedja.dota.vucetic@gmail.com","Username":"pedja994","Password":"pedja994"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (5, CAST(N'2020-07-01T11:41:04.8594939' AS DateTime2), N'User Registration', N'{"FirstName":"Predrag","LastName":"Vucetic","Email":"pedja.dota.vucetic@gmail.com","Username":"pedja994","Password":"pedja994"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (6, CAST(N'2020-07-01T11:43:04.0426059' AS DateTime2), N'User Registration', N'{"FirstName":"Jovana","LastName":"Petrovic","Email":"pjovana995@gmail.com","Username":"jocc995","Password":"jocc995"}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (7, CAST(N'2020-07-01T11:56:38.7625327' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Health","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (8, CAST(N'2020-07-01T11:56:44.4315510' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Sport","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (9, CAST(N'2020-07-01T11:56:48.7667657' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Fashion","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (10, CAST(N'2020-07-01T11:57:07.0617368' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Cars","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (11, CAST(N'2020-07-01T11:57:42.0608628' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Lifestyle","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (12, CAST(N'2020-07-01T11:57:52.4089648' AS DateTime2), N'Create New Category Using EF', N'{"Id":0,"Name":"Politics","Posts":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (13, CAST(N'2020-07-01T11:59:51.2836511' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"1.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"1.jpg\""],"Content-Type":["image/jpeg"]},"Length":92560,"Name":"Image","FileName":"1.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (14, CAST(N'2020-07-01T11:59:58.9994719' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"2.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"2.jpg\""],"Content-Type":["image/jpeg"]},"Length":734596,"Name":"Image","FileName":"2.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (15, CAST(N'2020-07-01T12:00:05.4211420' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"3.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"3.jpg\""],"Content-Type":["image/jpeg"]},"Length":1027059,"Name":"Image","FileName":"3.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (16, CAST(N'2020-07-01T12:00:10.2648354' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"4.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"4.jpg\""],"Content-Type":["image/jpeg"]},"Length":31809,"Name":"Image","FileName":"4.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (17, CAST(N'2020-07-01T12:00:15.0878044' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"5.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"5.jpg\""],"Content-Type":["image/jpeg"]},"Length":29553,"Name":"Image","FileName":"5.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (18, CAST(N'2020-07-01T12:00:21.1612879' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"6.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"6.jpg\""],"Content-Type":["image/jpeg"]},"Length":128192,"Name":"Image","FileName":"6.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (19, CAST(N'2020-07-01T12:00:26.2664778' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"7.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"7.jpg\""],"Content-Type":["image/jpeg"]},"Length":77609,"Name":"Image","FileName":"7.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (20, CAST(N'2020-07-01T12:00:31.5121772' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"8.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"8.jpg\""],"Content-Type":["image/jpeg"]},"Length":420870,"Name":"Image","FileName":"8.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (21, CAST(N'2020-07-01T12:00:36.9610952' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"9.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"9.jpg\""],"Content-Type":["image/jpeg"]},"Length":247314,"Name":"Image","FileName":"9.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (22, CAST(N'2020-07-01T12:00:42.0188419' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"10.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"10.jpg\""],"Content-Type":["image/jpeg"]},"Length":44105,"Name":"Image","FileName":"10.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (23, CAST(N'2020-07-01T12:00:46.1510174' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"11.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"11.jpg\""],"Content-Type":["image/jpeg"]},"Length":170768,"Name":"Image","FileName":"11.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (24, CAST(N'2020-07-01T12:00:51.1186646' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"12.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"12.jpg\""],"Content-Type":["image/jpeg"]},"Length":155932,"Name":"Image","FileName":"12.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (25, CAST(N'2020-07-01T12:01:02.7877641' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"blend.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"blend.jpg\""],"Content-Type":["image/jpeg"]},"Length":67105,"Name":"Image","FileName":"blend.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (26, CAST(N'2020-07-01T12:01:14.3905305' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"brazil.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"brazil.jpg\""],"Content-Type":["image/jpeg"]},"Length":57823,"Name":"Image","FileName":"brazil.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (27, CAST(N'2020-07-01T12:01:21.9702551' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"columbia.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"columbia.jpg\""],"Content-Type":["image/jpeg"]},"Length":72130,"Name":"Image","FileName":"columbia.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (28, CAST(N'2020-07-01T12:01:29.8891232' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"costarica.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"costarica.jpg\""],"Content-Type":["image/jpeg"]},"Length":54224,"Name":"Image","FileName":"costarica.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (29, CAST(N'2020-07-01T12:01:35.9177732' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"cuba.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"cuba.jpg\""],"Content-Type":["image/jpeg"]},"Length":62591,"Name":"Image","FileName":"cuba.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (30, CAST(N'2020-07-01T12:01:43.2454275' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"ethiopia.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"ethiopia.jpg\""],"Content-Type":["image/jpeg"]},"Length":54956,"Name":"Image","FileName":"ethiopia.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (31, CAST(N'2020-07-01T12:01:50.0334300' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"guatemala.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"guatemala.jpg\""],"Content-Type":["image/jpeg"]},"Length":64333,"Name":"Image","FileName":"guatemala.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (32, CAST(N'2020-07-01T12:01:56.3355268' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"india.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"india.jpg\""],"Content-Type":["image/jpeg"]},"Length":54912,"Name":"Image","FileName":"india.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (33, CAST(N'2020-07-01T12:02:06.0901513' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"indonesia.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"indonesia.jpg\""],"Content-Type":["image/jpeg"]},"Length":58918,"Name":"Image","FileName":"indonesia.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (34, CAST(N'2020-07-01T12:02:16.9347018' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"kenya.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"kenya.jpg\""],"Content-Type":["image/jpeg"]},"Length":56903,"Name":"Image","FileName":"kenya.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (35, CAST(N'2020-07-01T12:02:27.4337788' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"nicaragua.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"nicaragua.jpg\""],"Content-Type":["image/jpeg"]},"Length":54332,"Name":"Image","FileName":"nicaragua.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (36, CAST(N'2020-07-01T12:02:34.7862421' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"nightblend.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"nightblend.jpg\""],"Content-Type":["image/jpeg"]},"Length":52302,"Name":"Image","FileName":"nightblend.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (37, CAST(N'2020-07-01T12:02:41.5007518' AS DateTime2), N'Upload Image', N'{"Image":{"ContentDisposition":"form-data; name=\"Image\"; filename=\"joannasblend.jpg\"","ContentType":"image/jpeg","Headers":{"Content-Disposition":["form-data; name=\"Image\"; filename=\"joannasblend.jpg\""],"Content-Type":["image/jpeg"]},"Length":58255,"Name":"Image","FileName":"joannasblend.jpg"}}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (38, CAST(N'2020-07-01T12:03:52.1458661' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 1","Description":"Opis posta 1","CategoryId":1,"ImageId":1,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (39, CAST(N'2020-07-01T12:03:58.6648852' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 2","Description":"Opis posta 2","CategoryId":1,"ImageId":2,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (40, CAST(N'2020-07-01T12:04:06.2419859' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 3","Description":"Opis posta 3","CategoryId":1,"ImageId":3,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (41, CAST(N'2020-07-01T12:04:18.8516193' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 4","Description":"Opis posta 4","CategoryId":3,"ImageId":4,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (42, CAST(N'2020-07-01T12:04:30.0786720' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 5","Description":"Opis posta 5","CategoryId":5,"ImageId":5,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (43, CAST(N'2020-07-01T12:04:36.8755071' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 6","Description":"Opis posta 6","CategoryId":5,"ImageId":6,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (44, CAST(N'2020-07-01T12:04:58.1552182' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 7","Description":"Opis posta 7","CategoryId":2,"ImageId":7,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (45, CAST(N'2020-07-01T12:05:07.3872234' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 8","Description":"Opis posta 8","CategoryId":1,"ImageId":8,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (46, CAST(N'2020-07-01T12:05:15.5124506' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 9","Description":"Opis posta 9","CategoryId":3,"ImageId":9,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (47, CAST(N'2020-07-01T12:05:44.1332898' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 10","Description":"Opis posta 10","CategoryId":4,"ImageId":10,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (48, CAST(N'2020-07-01T12:05:56.5017520' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 11","Description":"Opis posta 11","CategoryId":6,"ImageId":11,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (49, CAST(N'2020-07-01T12:06:06.2668071' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 12","Description":"Opis posta 12","CategoryId":4,"ImageId":12,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (50, CAST(N'2020-07-01T12:06:20.0491943' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 13","Description":"Opis posta 13","CategoryId":2,"ImageId":13,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (51, CAST(N'2020-07-01T12:06:27.9414526' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 14","Description":"Opis posta 14","CategoryId":6,"ImageId":14,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (52, CAST(N'2020-07-01T12:06:37.9005736' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 15","Description":"Opis posta 15","CategoryId":1,"ImageId":15,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (53, CAST(N'2020-07-01T12:07:26.5159612' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 16","Description":"Opis posta 16","CategoryId":3,"ImageId":16,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (54, CAST(N'2020-07-01T12:07:35.5569274' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 17","Description":"Opis posta 17","CategoryId":5,"ImageId":17,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (55, CAST(N'2020-07-01T12:07:45.8591154' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 18","Description":"Opis posta 18","CategoryId":5,"ImageId":18,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (56, CAST(N'2020-07-01T12:07:53.9502907' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 19","Description":"Opis posta 19","CategoryId":4,"ImageId":19,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (57, CAST(N'2020-07-01T12:08:05.9991849' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 20","Description":"Opis posta 20","CategoryId":6,"ImageId":20,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (58, CAST(N'2020-07-01T12:08:13.3210295' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 21","Description":"Opis posta 21","CategoryId":3,"ImageId":21,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (59, CAST(N'2020-07-01T12:08:21.4001861' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 22","Description":"Opis posta 22","CategoryId":2,"ImageId":22,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (60, CAST(N'2020-07-01T12:08:27.8854259' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 23","Description":"Opis posta 23","CategoryId":2,"ImageId":23,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (61, CAST(N'2020-07-01T12:08:40.3086027' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 24","Description":"Opis posta 24","CategoryId":3,"ImageId":24,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (62, CAST(N'2020-07-01T12:08:48.4769973' AS DateTime2), N'Create New Post', N'{"Id":0,"Title":"Post 25","Description":"Opis posta 25","CategoryId":4,"ImageId":25,"Comments":null}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (63, CAST(N'2020-07-01T12:14:24.7712285' AS DateTime2), N'Posts Search', N'{"Title":null,"Description":null,"PerPage":10,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (64, CAST(N'2020-07-01T12:15:23.1729777' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":null,"PostId":0,"UserId":0}', N'Anonymous')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (65, CAST(N'2020-07-01T12:16:23.1470099' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":null,"PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (66, CAST(N'2020-07-01T12:17:18.9423820' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 1","PostId":1,"UserId":5}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (67, CAST(N'2020-07-01T12:17:26.4978856' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 2","PostId":1,"UserId":5}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (68, CAST(N'2020-07-01T12:17:34.2417042' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 3","PostId":2,"UserId":5}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (69, CAST(N'2020-07-01T12:18:10.1849692' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 4","PostId":5,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (70, CAST(N'2020-07-01T12:18:20.3434103' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 5","PostId":4,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (71, CAST(N'2020-07-01T12:18:30.0317446' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 6","PostId":6,"UserId":5}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (72, CAST(N'2020-07-01T12:20:53.4923886' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (73, CAST(N'2020-07-01T12:23:07.8229607' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (74, CAST(N'2020-07-01T12:24:05.0394329' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (75, CAST(N'2020-07-01T12:38:39.2051864' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (76, CAST(N'2020-07-01T12:40:48.5208803' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (77, CAST(N'2020-07-01T12:42:33.6943088' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Komentar 7","PostId":5,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (78, CAST(N'2020-07-01T12:44:15.2179951' AS DateTime2), N'User Registration', N'{"FirstName":"Mika","LastName":"Mikic","Email":"pedja.dota.vucetic@gmail.com","Username":"mika123","Password":"mika123"}', N'Anonymous')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (79, CAST(N'2020-07-01T15:53:19.8985613' AS DateTime2), N'Search Logs', N'{"Actor":null,"UseCaseName":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (80, CAST(N'2020-07-01T15:54:02.8107262' AS DateTime2), N'Search Logs', N'{"Actor":null,"UseCaseName":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (81, CAST(N'2020-07-01T15:54:27.5024836' AS DateTime2), N'Search Logs', N'{"Actor":null,"UseCaseName":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (82, CAST(N'2020-07-01T15:56:19.2242201' AS DateTime2), N'Search Logs', N'{"Actor":null,"UseCaseName":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (83, CAST(N'2020-07-01T15:56:39.6734108' AS DateTime2), N'Search Logs', N'{"Actor":"pedja994","UseCaseName":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (84, CAST(N'2020-07-01T15:56:53.6648298' AS DateTime2), N'Search Logs', N'{"Actor":"pedja994","UseCaseName":null,"PerPage":5,"Page":2}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (85, CAST(N'2020-07-01T16:44:54.2778440' AS DateTime2), N'Comments Search', N'{"Content":null,"PerPage":5,"Page":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (86, CAST(N'2020-07-01T16:45:30.1900238' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":null,"PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (87, CAST(N'2020-07-01T16:46:30.1706110' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":null,"PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (88, CAST(N'2020-07-01T16:51:08.8144561' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":null,"PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (89, CAST(N'2020-07-01T16:56:27.9103437' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":null,"PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (90, CAST(N'2020-07-01T16:57:51.7650690' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":1}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (91, CAST(N'2020-07-01T17:01:04.2408456' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (92, CAST(N'2020-07-01T17:02:45.7612057' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (93, CAST(N'2020-07-01T17:04:44.8738969' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (94, CAST(N'2020-07-01T17:07:09.2860953' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (95, CAST(N'2020-07-01T17:10:45.1738272' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (96, CAST(N'2020-07-01T17:12:52.7497893' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":2,"UserId":6}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (97, CAST(N'2020-07-01T17:17:35.6388224' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":0,"UserId":0}', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (98, CAST(N'2020-07-01T17:19:39.3178462' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":0,"UserId":0}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (99, CAST(N'2020-07-01T17:28:48.2661581' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":0,"UserId":0}', N'Fake Admin Api Actor')
+GO
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (100, CAST(N'2020-07-01T17:32:11.7479858' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":0,"UserId":0}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (101, CAST(N'2020-07-01T17:35:19.1893450' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (102, CAST(N'2020-07-01T17:36:20.0934278' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (103, CAST(N'2020-07-01T17:38:58.4699468' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (104, CAST(N'2020-07-01T17:44:14.9110817' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (105, CAST(N'2020-07-01T18:08:08.2837152' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (106, CAST(N'2020-07-01T18:09:31.1340783' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (107, CAST(N'2020-07-01T18:16:09.6932367' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (108, CAST(N'2020-07-01T18:18:43.2878682' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":20,"UserId":1}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (109, CAST(N'2020-07-01T18:19:31.6258543' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":22,"UserId":5}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (110, CAST(N'2020-07-01T18:21:26.3799305' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":22,"UserId":5}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (111, CAST(N'2020-07-01T18:23:03.2470627' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":22,"UserId":5}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (112, CAST(N'2020-07-01T18:23:49.2728301' AS DateTime2), N'Edit Comment', N'{"Id":3,"Content":"Aasdfasd","PostId":22,"UserId":5}', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (113, CAST(N'2020-07-01T18:45:35.4678079' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (114, CAST(N'2020-07-01T18:54:37.5154664' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (115, CAST(N'2020-07-01T18:56:04.4434638' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (116, CAST(N'2020-07-01T18:56:46.3955624' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (117, CAST(N'2020-07-01T18:58:18.5713803' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (118, CAST(N'2020-07-01T19:04:01.1366387' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (119, CAST(N'2020-07-01T19:06:31.0347355' AS DateTime2), N'Delete Comment', N'3', N'Fake Admin Api Actor')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (120, CAST(N'2020-07-01T19:08:19.3378575' AS DateTime2), N'Delete Comment', N'3', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (121, CAST(N'2020-07-01T19:09:10.9547762' AS DateTime2), N'Delete Comment', N'3', N'jocc995')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (122, CAST(N'2020-07-01T19:11:34.2730916' AS DateTime2), N'Create New Comment', N'{"Id":0,"Content":"Neki tamo komentar","PostId":20,"UserId":0}', N'jocc995')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (123, CAST(N'2020-07-01T19:14:16.6345426' AS DateTime2), N'Delete Comment', N'3', N'jocc995')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (124, CAST(N'2020-07-01T19:16:19.1162805' AS DateTime2), N'Delete Comment', N'3', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (125, CAST(N'2020-07-01T19:18:56.7306325' AS DateTime2), N'Delete Comment', N'3', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (126, CAST(N'2020-07-01T19:20:29.1937152' AS DateTime2), N'Delete Comment', N'3', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (127, CAST(N'2020-07-01T19:22:03.3144581' AS DateTime2), N'Delete Comment', N'3', N'pedja994')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (128, CAST(N'2020-07-01T19:30:42.2282534' AS DateTime2), N'Delete Comment', N'3', N'jocc995')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (129, CAST(N'2020-07-01T19:31:08.4724392' AS DateTime2), N'Delete Comment', N'2', N'jocc995')
+INSERT [dbo].[UseCaseLogs] ([Id], [Date], [UseCaseName], [Data], [Actor]) VALUES (130, CAST(N'2020-07-01T19:40:02.0334045' AS DateTime2), N'Delete Comment', N'2', N'jocc995')
+SET IDENTITY_INSERT [dbo].[UseCaseLogs] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+
+INSERT [dbo].[Users] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [FirstName], [LastName], [Email], [Username], [Password]) VALUES (1, CAST(N'2020-07-01T11:26:55.3275131' AS DateTime2), NULL, 0, NULL, 1, N'Vlade', N'Vucetic', N'vladimir.vucetic992@gmail.com', N'vlade992', N'vlade992')
+INSERT [dbo].[Users] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [FirstName], [LastName], [Email], [Username], [Password]) VALUES (5, CAST(N'2020-07-01T11:41:06.4764609' AS DateTime2), NULL, 0, NULL, 1, N'Predrag', N'Vucetic', N'pedja.dota.vucetic@gmail.com', N'pedja994', N'pedja994')
+INSERT [dbo].[Users] ([Id], [CreatedAt], [ModifiedAt], [IsDeleted], [DeletedAt], [IsActive], [FirstName], [LastName], [Email], [Username], [Password]) VALUES (6, CAST(N'2020-07-01T11:43:05.6437037' AS DateTime2), NULL, 0, NULL, 1, N'Jovana', N'Petrovic', N'pjovana995@gmail.com', N'jocc995', N'jocc995')
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserUseCase] ON 
+
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (12, 5, 1)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (13, 5, 19)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (14, 5, 18)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (15, 5, 17)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (16, 5, 16)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (17, 5, 15)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (18, 5, 14)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (19, 5, 13)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (20, 5, 12)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (21, 5, 20)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (22, 5, 11)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (23, 5, 9)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (24, 5, 8)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (25, 5, 7)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (26, 5, 6)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (27, 5, 5)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (28, 5, 4)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (29, 5, 3)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (30, 5, 2)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (31, 5, 10)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (32, 5, 21)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (33, 6, 3)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (34, 6, 6)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (35, 6, 12)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (36, 6, 13)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (37, 6, 17)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (38, 6, 18)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (39, 6, 19)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (40, 6, 20)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (41, 6, 21)
+INSERT [dbo].[UserUseCase] ([Id], [UserId], [UseCaseId]) VALUES (42, 5, 22)
+SET IDENTITY_INSERT [dbo].[UserUseCase] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_Categories_Name]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Categories_Name] ON [dbo].[Categories]
+(
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_Comments_PostId]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE NONCLUSTERED INDEX [IX_Comments_PostId] ON [dbo].[Comments]
+(
+	[PostId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_Comments_UserId]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE NONCLUSTERED INDEX [IX_Comments_UserId] ON [dbo].[Comments]
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_Posts_CategoryId]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE NONCLUSTERED INDEX [IX_Posts_CategoryId] ON [dbo].[Posts]
+(
+	[CategoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_Posts_ImageId]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Posts_ImageId] ON [dbo].[Posts]
+(
+	[ImageId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_Posts_Title]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Posts_Title] ON [dbo].[Posts]
+(
+	[Title] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [AK_Users_Username]    Script Date: 01/07/2020 22:00:22 ******/
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [AK_Users_Username] UNIQUE NONCLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_Users_Email]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email] ON [dbo].[Users]
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_UserUseCase_UserId]    Script Date: 01/07/2020 22:00:22 ******/
+CREATE NONCLUSTERED INDEX [IX_UserUseCase_UserId] ON [dbo].[UserUseCase]
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Images] ADD  DEFAULT ((0)) FOR [PostId]
+GO
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_Posts_PostId] FOREIGN KEY([PostId])
+REFERENCES [dbo].[Posts] ([Id])
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_Posts_PostId]
+GO
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_Users_UserId]
+GO
+ALTER TABLE [dbo].[Posts]  WITH CHECK ADD  CONSTRAINT [FK_Posts_Categories_CategoryId] FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Categories] ([Id])
+GO
+ALTER TABLE [dbo].[Posts] CHECK CONSTRAINT [FK_Posts_Categories_CategoryId]
+GO
+ALTER TABLE [dbo].[Posts]  WITH CHECK ADD  CONSTRAINT [FK_Posts_Images_ImageId] FOREIGN KEY([ImageId])
+REFERENCES [dbo].[Images] ([Id])
+GO
+ALTER TABLE [dbo].[Posts] CHECK CONSTRAINT [FK_Posts_Images_ImageId]
+GO
+ALTER TABLE [dbo].[UserUseCase]  WITH CHECK ADD  CONSTRAINT [FK_UserUseCase_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[UserUseCase] CHECK CONSTRAINT [FK_UserUseCase_Users_UserId]
+GO
+USE [master]
+GO
+ALTER DATABASE [Blog_asp] SET  READ_WRITE 
+GO
