@@ -40,7 +40,7 @@ namespace Blog.Implementation.Commands
 
             if ((userId != _actor.Id) && (_actor.Id != 5))
             {
-                throw new Exception();
+                throw new Exception("You are not allowed to execute this operation.");
             }
 
             comment.IsDeleted = true;

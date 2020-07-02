@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Api.Core;
 using Blog.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TokenController : ControllerBase
