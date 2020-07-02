@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TokenController : ControllerBase
